@@ -9,18 +9,20 @@ module TutoriaChat
     def start
       p "Welcome! Start you chat now: "
 
+      # print messages from the server
       Thread.new do
-        socket_message = @socket.gets.chop
-        p socket_message if socket_message.size > 0
-        sleep 1
+        while @socket.closed? == false
+          socket_message = @socket.gets.chop
+          p socket_message if socket_message.size > 0
+          sleep 1
+        end
       end
 
-      Thread.new do
-        while (msg = gets.chop) != "bye"
-          @socket.puts msg
-        end
-        @socket.close
-      end
+      # read client's until "bye" command
+      @socket.puts msg while (msg = gets.chop) != "bye"
+
+      # hasta la vista, socket :)
+      @socket.close
     end
   end
 end
