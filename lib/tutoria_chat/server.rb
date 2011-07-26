@@ -12,6 +12,7 @@ module TutoriaChat
     def serve client
       @clients << client
       server_clients_status
+
       while msg = client.readline.chop
         log "Message received(#{msg})"
         broadcast_message(msg, client)
@@ -19,8 +20,9 @@ module TutoriaChat
           log "Client has closed a connection."
           break
         end
-        self.stop if msg == "server.stop"
+        stop if msg == "server.stop"
       end
+
       @clients.delete(client)
       server_clients_status
     end

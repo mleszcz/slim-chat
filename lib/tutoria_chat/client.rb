@@ -19,7 +19,10 @@ module TutoriaChat
       end
 
       # read client's until "bye" command
-      @socket.puts msg while (msg = gets.chop) != "bye"
+      while (msg = gets.chop) do
+        @socket.puts msg
+        break if msg == "bye"
+      end
 
       # hasta la vista, socket :)
       @socket.close
